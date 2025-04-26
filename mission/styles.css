@@ -1,0 +1,50 @@
+body {
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.blue{
+    color: #006EB6;
+    margin-bottom: 0px;
+}
+
+footer{
+    margin: 0 auto;
+    text-align: center;
+}
+
+footer img{
+    max-width: 150px;
+    height: auto;
+    align-items: center;
+}
+
+.content{
+    border: 1px solid #E0E0E0;
+    margin: 50px;
+    padding: 75px;
+    max-width: 600px;
+
+}
+
+.title{
+    text-align: center;
+    border-bottom: 1px solid #E0E0E0;
+    margin-bottom: 50px;
+    letter-spacing: 2px;
+}
+
+.title h1{
+    margin-bottom: 5px;
+}
+.italics{
+    font-style: italic;
+}
+
+.list{
+    margin-bottom: 50px;
+}
+
+.list li{
+    margin-bottom: 15px;
+}
