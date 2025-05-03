@@ -48,3 +48,12 @@ footer img{
 .list li{
     margin-bottom: 15px;
 }
+
+.dark{
+    background-color: #333;
+    color: white;
+}
+
+.dark .title .blue{
+   color: #4F9ACF;
+}
