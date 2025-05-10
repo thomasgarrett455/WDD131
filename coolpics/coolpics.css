@@ -34,9 +34,12 @@ body{
     text-decoration: none;
 }
 
-.nav h2{
+.nav button{
     padding: 0;
     margin: 0;
+    all: unset;
+    font: inherit;
+    cursor: pointer;
 }
 
 header{
