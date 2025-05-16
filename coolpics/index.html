@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool pics</title>
-    <meta name="description" content="Acollection of cool pictures">
+    <meta name="description" content="A collection of cool pictures">
     <meta name="author" content="Thomas Garrett">
     <link rel="stylesheet" href="coolpics.css">
     <script src="coolpics.js" defer ></script>
@@ -15,8 +15,8 @@
             Cool Pics 📷
         </h1>
         <nav class="nav">
-            <h2><button>Menu</button></h2>
-            <ul>
+            <h2><button class="menu-button">Menu</button></h2>
+            <ul class="menu hide">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="people.html">People</a></li>
                 <li><a href="places.html">Places</a></li>
@@ -56,6 +56,10 @@
             </figure>                                   
         </div>
     </main>
+     <div id="imageModal" class="modal">
+        <span class="close-button">X</span>
+        <img class="modal-content" id="modalImage">
+        <div id="caption"></div> </div>
     <footer>
         <div class="footer-container">
             <p>©2023 Not a real site 😀</p>

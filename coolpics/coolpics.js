@@ -5,4 +5,17 @@ function toggleMenu() {
 
 }
 
-menuButton.addeventListener("click", toggleMenu);
+menuButton.addEventListener("click", toggleMenu);
+
+function handleResize(){
+    const element = document.querySelector(".menu-button")
+    if (window.innerWidth > 1000){
+        element.classList.remove("hide");
+    }
+    else{
+        element.classList.add("hide");
+    }
+    }
+handleResize()
+
+window.addEventListener("resize", handleResize);
