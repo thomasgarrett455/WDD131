@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     
-    const modal = document.getElementById("imageModal");
+    const modal = document.getElementById("image-modal");
     const modalImg = document.getElementById("modalImage");
     const closeButton = document.querySelector(".close-button");
     const galleryImages = document.querySelectorAll(".gallery img");
