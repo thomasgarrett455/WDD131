@@ -26,4 +26,26 @@ const articles = [
 	}
 ]
 
-const books = document.querySelector('#')
+const articleListContainer = document.querySelector('#article-list');
+
+articles.forEach(item => {
+    const newArticleElement = document.createElement('article');
+    newArticleElement.classList.add('book-review-entry');
+
+    const articleTemplate = `
+        <h2>${item.title}</h2>
+        <img src="${item.imgSrc}" alt="${item.imgAlt}">
+        <p>${item.description} <button>Read More...</button></p>
+        <div class="details">
+            <ul>
+                <li>Date: ${item.date}</li>
+                <li>Recommended Ages: ${item.ages}</li>
+                <li>Genre: ${item.genre}</li>
+                <li>Rating: ${item.stars}</li>
+            </ul>
+        </div>
+    `;
+
+    newArticleElement.innerHTML = articleTemplate;
+    articleListContainer.appendChild(newArticleElement);
+});

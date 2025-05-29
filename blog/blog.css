@@ -119,3 +119,53 @@ main{
 
 }
 
+/* js styling */
+
+#article-list {
+    grid-column: 2 / 3; 
+}
+
+.book-review-entry {
+    margin-bottom: 50px;
+    color: var(--primary-color);
+}
+
+.book-review-entry h2 {
+    padding-left: 25px;
+    transform: translateY(-8px); 
+    font-size: 1.75em;
+}
+
+.book-review-entry img {
+    padding-left: 50px; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px; 
+    height: auto; 
+}
+
+.book-review-entry > p { 
+    color: var(--secondary-color);
+    padding-left: 25px;
+}
+
+.book-review-entry .details ul {
+    display: flex;
+    flex-direction: column;
+    font-family: "American Typewriter", serif;
+    font-size: 1.15em;
+    color: var(--secondary-color);
+    list-style: none;
+    gap: 4px;
+    padding-left: 0; 
+}
+
+.book-review-entry .details {
+    text-align: right;  
+    border-right: 2px solid var(--accent); 
+    margin-top: 15px; 
+    padding-left: 25px;
+    grid-template-columns: 1/2;
+}
+
