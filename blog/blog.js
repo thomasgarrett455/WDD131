@@ -25,3 +25,5 @@ const articles = [
 		stars: '⭐⭐⭐⭐'
 	}
 ]
+
+const books = document.querySelector('#')
