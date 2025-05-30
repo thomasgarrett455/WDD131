@@ -50,16 +50,12 @@ body {
 
 main{
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: auto 1fr;
-    height: 100vh;
+    grid-template-columns: 3fr 1fr;
 }
 
 #filters{
     color: var(--secondary-color);
     font-family: "American Typewriter", serif;
-    grid-column: 3;
-    grid-row: 1 /  3;
     border-top: 2px solid var(--accent);
     border-bottom: 2px solid var(--accent);
     border-left: 2px solid var(--accent);
@@ -67,73 +63,23 @@ main{
     margin-right: 25px;
 }
 
-#reviews1 ul, #reviews2 ul{
-    display: flex;
-    flex-direction: column;
-    font-family: "American Typewriter", serif;
-    font-size: 1.15em;
-    color: var(--secondary-color);
-    list-style: none;
-    gap: 4px;
-    margin-right: 10px;
-}
-
-#reviews1{
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-    border-right: 2px solid var(--accent);
-    margin-bottom: 40px;
-    text-align: right;
-}
-
-#reviews2 {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-    border-right: 2px solid var(--accent);
-    text-align: right;
-}
-
-#book1, #book2{
-    margin-bottom:50px;
-    color: var(--primary-color);
-}
-
-#book1 h2, #book2 h2{
-    padding-left: 25px;
-    transform: translateY(-8px);
-    font-size: 1.75em;
-}
-
-#book1 img, #book2 img{
-    padding-left: 50px;
-}
-
-#book1 p, #book2 p{
-    color: var(--secondary-color);
-    padding-left: 25px;
-}
-
-#book1 img, #book2 img{
-    display: block;
-    margin:auto;
-
-}
-
 /* js styling */
 
-#article-list {
-    grid-column: 2 / 3; 
+.book-review-entry {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-column: 1 / 3; 
 }
 
 .book-review-entry {
     margin-bottom: 50px;
-    color: var(--primary-color);
 }
 
 .book-review-entry h2 {
     padding-left: 25px;
-    transform: translateY(-8px); 
+    transform: translateY(-2px); 
     font-size: 1.75em;
+    color: var(--primary-color);
 }
 
 .book-review-entry img {
@@ -141,13 +87,14 @@ main{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 150px; 
+    width: 250px; 
     height: auto; 
 }
 
-.book-review-entry > p { 
+.book-review-entry p { 
     color: var(--secondary-color);
     padding-left: 25px;
+    padding-right: 25px;
 }
 
 .book-review-entry .details ul {
@@ -159,6 +106,7 @@ main{
     list-style: none;
     gap: 4px;
     padding-left: 0; 
+    padding-right: 10px;
 }
 
 .book-review-entry .details {
@@ -166,6 +114,11 @@ main{
     border-right: 2px solid var(--accent); 
     margin-top: 15px; 
     padding-left: 25px;
-    grid-template-columns: 1/2;
-}
+} 
 
+.book-review-entry a{
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    text-decoration: none;
+}
