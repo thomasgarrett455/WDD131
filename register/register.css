@@ -154,8 +154,28 @@
   button:hover {
     background: #00b33c;
   }
+
+  /* .participants
+  {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #add{
+    grid-column: 1;
+  } */
+
   @media (max-width: 568px) {
     .columns div {
       width: 100%;
     }
   }
+
+@media (min-width: 768px){
+    #participants-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        gap: 20px; 
+        }
+}
+  
