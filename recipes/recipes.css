@@ -1,0 +1,59 @@
+body{
+    justify-items: center;
+}
+
+header{
+    width: 100%;
+    border-bottom: 2px solid lightgrey;
+}
+
+.title{
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 20px;  
+}
+
+.title h1{
+    margin: 0;
+}
+
+.title img{
+    height: 40px;
+}
+
+.search{
+    display: flex;
+    align-items: stretch;
+}
+
+.recipes{
+    width: 80%;
+    margin: 0 auto;
+}
+
+#recipe img{
+    height: 400px;
+}
+
+.rating-display .star {
+  margin-right: 2px;
+}
+
+.rating-display .star.filled {
+  color: gold;
+}
+
+.rating-display .star.empty {
+  color: #ccc; 
+}
+
+.social{
+    display: flex;
+    justify-content: space-around;
+}
+.social img {
+    height: 50px; 
+    width: 100;
+    margin: 0 auto;
+    margin-top: 25px;
+}

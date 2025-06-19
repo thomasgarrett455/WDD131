@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta description="An example recipe website page">
+    <meta author="Thomas Garrett">
+    <link rel="icon" href="favicon.png">
+    <title>Recipes</title>
+    <link rel="stylesheet" href="recipes.css">
+    <script type="module" src="main.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="title">
+            <img src="images/recipe-book.png" alt="Cartoonish image of a recipe book">
+            <h1>RECIPEBOOK</h1>
+        </div>
+        <form class="search">
+            <label for="recipe"></label>
+            <input type="text" name="userInput" placeholder="Find a recipe">
+            <button type="submit"></button>
+        </form>
+    </header>
+    <main>
+        <div class="recipes">
+            <button id="recipe">
+                <img src="images/apple-crisp.jpg" alt="Image of Apple Crisp Dessert with a scoop of vanilla icecram">
+                <h3>dessert</h3>
+                <h3>Apple Crisp</h3>
+                <div class="rating-display">
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star empty">★</span>
+                </div>
+            </button>
+        </div>
+    </main>
+    <footer>
+        <div class="social">
+            <!-- Social media icons provided under CC from https://www.iconfinder.com/AlfredoCreates  -->
+            <a href="#"><img src="images/instagram_icon.svg" alt="instagram icon"></a>
+            <a href="#"><img src="images/youtube_icon.svg" alt="youtube icon"></a>
+            <a href="#"><img src="images/pinterest_icon.svg" alt="pinterest icon"></a>
+        </div>
+        <a href="https://www.flaticon.com/free-icons/recipe" title="recipe icons">Recipe icons created by Freepik - Flaticon</a>
+    </footer>
+</body>
+</html>
