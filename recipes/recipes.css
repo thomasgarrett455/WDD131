@@ -1,38 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap");
+ :root {
+ --primary-color: #1B98E0;
+ --secondary-color: #59c3c3;
+ --text-dark: #333;
+ --text-light: #ebebeb;
+ --primary-font: Arial, Helvetica,sans-serif;
+ --secondary-font: "Amatic SC";
+ }
+
 body{
     justify-items: center;
 }
 
 header{
-    width: 100%;
     border-bottom: 2px solid lightgrey;
+    margin-bottom: 20px;
 }
 
 .title{
     display: flex;
     align-items: flex-end;
     padding-bottom: 20px;  
+    font-family: var(--secondary-font);
+    font-size: 2em;
 }
 
-.title h1{
-    margin: 0;
+img {
+	max-width: 100%;
 }
 
 .title img{
-    height: 40px;
+    height: 80px;
 }
 
 .search{
     display: flex;
     align-items: stretch;
-}
-
-.recipes{
-    width: 80%;
-    margin: 0 auto;
+    font-family: var(--primary-font);
 }
 
 #recipe img{
-    height: 400px;
+    height: 300px;
+    margin-top: 15px;
+    margin-right: 15px;
+    padding-left: 0px;
+}
+
+#recipe{
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25em;
+    padding-left: 15px;
+    padding-bottom: 20px;
+    border-radius: 15px;
+}
+
+#recipe h3{
+    border: black solid 1px;
+    margin-bottom: 0px;
+}
+
+#recipe h2{
+    font-family: var(--secondary-font);
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 0;
+}
+
+#recipe, .rating{
+    align-items: flex-start;
 }
 
 .rating-display .star {
@@ -51,9 +88,21 @@ header{
     display: flex;
     justify-content: space-around;
 }
+
 .social img {
     height: 50px; 
     width: 100;
     margin: 0 auto;
     margin-top: 25px;
+}
+
+@media(min-width: 600px) {
+    #recipe{
+        flex-direction: row;
+    }
+
+    footer{
+        display: flex;
+
+    }
 }
