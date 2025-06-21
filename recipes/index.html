@@ -7,22 +7,28 @@
     <meta author="Thomas Garrett">
     <link rel="icon" href="favicon.png">
     <title>Recipes</title>
+    <link rel="icon" href="images/favicon.png">
     <link rel="stylesheet" href="recipes.css">
     <script type="module" src="main.js" defer></script>
+    <meta property="og:title" content="Recipes">
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="An example recipe website page">
+    <meta property="og:image" content="https://thomasgarrett455.github.io/wdd131/recipes/images/apple-crisp.jpg">
+    <meta property="og:url" content="https://thomasgarrett455.github.io/wdd131/recipes">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <header>
-        <div class="title">
             <img src="images/recipe-book.png" alt="Cartoonish image of a recipe book">
             <h1>RECIPEBOOK</h1>
-        </div>
+    </header>
+    <main>
         <form class="search">
             <label for="recipe"></label>
             <input type="text" name="userInput" placeholder="Find a recipe">
-            <button type="submit"></button>
+            <button type="submit"><img src="images/search.svg" alt="magnifying glass image"></button>
         </form>
-    </header>
-    <main>
+        <hr></hr>
         <div class="recipes">
             <button id="recipe">
                 <img src="images/apple-crisp.jpg" alt="Image of Apple Crisp Dessert with a scoop of vanilla icecram">
@@ -40,6 +46,7 @@
                         <span aria-hidden="true" class="icon-star-empty">⭐</span>
                         <span aria-hidden="true" class="icon-star-empty">☆</span>
                     </span>
+                    <p>This apple crisp recipe is a simple yet delicious fall dessert that's great served warm with vanilla ice cream.</p>
                 </div>
             </button>
         </div>

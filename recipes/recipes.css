@@ -13,30 +13,46 @@ body{
 }
 
 header{
-    border-bottom: 2px solid lightgrey;
     margin-bottom: 20px;
-}
-
-.title{
-    display: flex;
-    align-items: flex-end;
     padding-bottom: 20px;  
     font-family: var(--secondary-font);
     font-size: 2em;
+    align-items: end;
+    padding-top: 20px;
+}
+
+header h1{
+    margin: 0;
+    align-self: end;
+    display: inline;
 }
 
 img {
 	max-width: 100%;
 }
 
-.title img{
+header img{
     height: 80px;
+    align-self: center;
 }
 
 .search{
     display: flex;
-    align-items: stretch;
     font-family: var(--primary-font);
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+form{
+    padding-bottom: 15px;
+}
+
+form input{
+    flex-grow: 1;
+}
+
+.search button img{
+    height: 15px;
 }
 
 #recipe img{
@@ -56,9 +72,16 @@ img {
     border-radius: 15px;
 }
 
+.description p{
+    display: none;
+}
+
 #recipe h3{
     border: black solid 1px;
     margin-bottom: 0px;
+    width: 100px;
+    text-align: center;
+
 }
 
 #recipe h2{
@@ -66,10 +89,16 @@ img {
     color: var(--primary-color);
     font-size: 2em;
     margin-bottom: 0;
+    text-align: left;
+}
+
+#recipe p{
+    text-align: left;
 }
 
 #recipe, .rating{
     align-items: flex-start;
+    text-align: left;
 }
 
 .rating-display .star {
@@ -86,7 +115,7 @@ img {
 
 .social{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .social img {
@@ -94,6 +123,7 @@ img {
     width: 100;
     margin: 0 auto;
     margin-top: 25px;
+    padding-left: 5px;
 }
 
 @media(min-width: 600px) {
@@ -103,6 +133,20 @@ img {
 
     footer{
         display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+    }
 
+    .description p{
+    display: block;
+}
+}
+
+@media(min-width: 960px){
+    body{
+        max-width: 960px;
+        margin: 0 auto;
     }
 }
