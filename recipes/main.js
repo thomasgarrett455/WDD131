@@ -15,7 +15,7 @@ function recipeTemplate(recipe) {
     <img src="${recipe.image}" alt="Image of ${recipe.name}" />
     <figcaption>
         <ul class="recipe__tags">
-            <h3>${tagsTemplate(recipe.tags)}<h3>
+            <h3>${tagsTemplate(recipe.tags)}</h3>
         </ul>
         <h2>${recipe.name}</h2>
         <p class="recipe__rating">
@@ -72,14 +72,22 @@ function init() {
     renderRecipes([recipe])
 }
 
-function filterRecipes(query){
-    const filtered = recipes.filter(filterFunction)
-    const sorted = filter.sort(sortFunction)
-        return sorted
+function filterRecipes(query) {
+  const filtered = recipes.filter(recipe => {
+    
+    const nameMatch = recipe.name.toLowerCase().includes(query);
+    const descriptionMatch = recipe.description?.toLowerCase().includes(query);
+    const tagMatch = recipe.tags.some(tag => tag.toLowerCase().includes(query));
+    
+    return nameMatch || descriptionMatch || tagMatch;
+  });
+  const sorted = filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+  return sorted;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('#search-form');
+  const form = document.querySelector('.search');
   if (form) {
     form.addEventListener('submit', searchHandler);
   }
@@ -89,7 +97,7 @@ function searchHandler(e) {
     e.preventDefault()
     //get the searh input
     const searchInput = document.querySelector('#search-input');
-    //convert the value in th einput to lowercase
+    //convert the value in the input to lowercase
     const query = searchInput.value.toLowerCase().trim();
     // use the filter function to filter our recipes
     const results = filterRecipes(query);
