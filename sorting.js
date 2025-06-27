@@ -67,7 +67,7 @@ const hikes = [
 const simpleList = ["oranges", "grapes", "lemons", "apples", "Bananas", "watermelons", "coconuts", "broccoli", "mango"];
 const simpleSort = simpleList.sort()
 
-console.log(simpleSort);
+// console.log(simpleSort);
 
 function compareFn(a,b) {
   if (a > b) {
@@ -79,11 +79,33 @@ function compareFn(a,b) {
 }
 const anotherSort = simpleList.sort(compareFn)
 
-console.log(anotherSort);
+// console.log(anotherSort);
 
 function searchList(list, query) {
-  function searchCallback(string) {
-    return string.toLowerCase().includes(query.toLowerCase());
+  function searchCallback(item) {
+    const lowerCaseQuery = query.toLowerCase();
+
+    const nameMatch = item.name.toLowerCase().includes(lowerCaseQuery);
+    const descriptionMatch = item.description?.toLowerCase().includes(lowerCaseQuery);
+
+    return nameMatch || descriptionMatch;
   }
-  return list.filter
+  return list.filter(searchCallback);
 }
+console.log(searchList(hikes, "al"));
+console.log(searchList(hikes, "beautiful"));
+
+
+  function searchList(list, q) {
+    function searchCallback(item) {
+      return (
+        item.name.toLowerCase().includes(q.toLowerCase()) ||
+        item.description.toLowerCase().includes(q.toLowerCase()) ||
+        item.tags.find((tag) => tag.toLowerCase().includes(q.toLowerCase()))
+      );
+    }
+    const filtered = list.filter(searchCallback);
+
+    const sorted = filtered.sort((a, b) => a.distance > b.distance);
+    return sorted;
+  }
