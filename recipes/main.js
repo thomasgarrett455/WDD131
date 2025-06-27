@@ -13,18 +13,14 @@ function getRandomListEntry(list) {
 function recipeTemplate(recipe) {
   return `<figure class="recipe">
     <img src="${recipe.image}" alt="Image of ${recipe.name}" />
-    <figcaption>
-        <ul class="recipe__tags">
             <h3>${tagsTemplate(recipe.tags)}</h3>
-        </ul>
         <h2>${recipe.name}</h2>
-        <p class="recipe__rating">
+        <p class="rating">
             ${ratingTemplate(recipe.rating)}
         </p>
-        <p class="recipe__description">
+        <p class="descritpion">
             ${recipe.description}
         </p>
-</figcaption>
 </figure>`;
 }
 
