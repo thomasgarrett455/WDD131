@@ -7,7 +7,6 @@
     <meta author="Thomas Garrett">
     <meta description="A website to view my family memories">
     <link rel="stylesheet" href="travel-journal.css">
-
 </head>
 <body>
     <header>
@@ -19,7 +18,7 @@
     </header>
     <div id="memory-intro">
         <h1>Our Memories</h1>
-        <p>Here's where we keep our favorite stories, photos, and little moments from the places we've been. Each trip holds a memory, and every memory brings us a little closer."</p>
+        <p>Here's where we keep our favorite stories, photos, and little moments from the places we've been. Each trip holds a memory, and every memory brings us a little closer.</p>
         <form class="search">
             <label for="memories"></label>
             <input type="text" id="search-input" name="userInput" placeholder="Search by place, year, or keyword">
@@ -27,13 +26,15 @@
         </form>
     </div>
     <hr></hr>
-    <h2>No Memories Found please try again</h2>
+    <div id="none-found"><h2>No Memories Found please try again</h2></div>
     <div class="memories">
         <img src="images/ashe-2025/ashe1.jpg" alt="A selfie of my wife and me at an Ashe concert"/>
-        <p>Concert</p>
-        <p>The Ashe Concert we went to in SLC!</p>
-        <p>06/25</p>
-        <p>Salt Lake City</p>
+        <div class="memory-info">
+            <p>Ashe Concert</p>
+            <p>Description: The Ashe Concert we went to in SLC!</p>
+            <p>Date: 06/25</p>
+            <p>Location: Salt Lake City</p>
+        </div>
     </div>
     <footer>
         © The Garrett Family 2025
