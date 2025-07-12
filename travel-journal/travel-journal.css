@@ -1,0 +1,135 @@
+:root {
+    --primary-color: #92412D;
+    --secondary-color: #F3E3D0;
+    --accent1-color: #E7B594;
+    --accent2-color: #DF865F;
+
+    --heading-font: "Libre Baskerville";
+    --paragraph-font: "Source Sans 3", sans-serif;
+}
+
+header {
+    display: flex;
+    background-color: var(--secondary-color);
+}
+
+header img{
+    height: 75px;
+    margin-left: auto;
+}
+
+nav {
+  background-color: var(--nav-background-color);
+  line-height: 3em;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+nav {
+  list-style-type: none;
+  display: flex;
+}
+
+nav a {
+  padding: 1em;
+  min-width: 120px;
+  text-decoration: none;
+  padding: 10px;
+}
+
+nav a:link,
+nav a:visited {
+  color: var(--primary-color);
+}
+
+nav a:hover {
+  color: white;
+  background-color: var(--primary-color);
+}
+
+#hero {
+    text-align: center;
+}
+
+#hero h1 {
+    color: var(--primary-color);
+    font-size: 3em;
+}
+
+#hero h2 {
+    color: var(--accent1-color);
+    margin-bottom: 35px;
+}
+
+#hero h3 {
+    color: var(--accent2-color);
+}
+
+#hero button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  font-family: var(--paragraph-font);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem 1.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 6px 12px rgba(146, 65, 45, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+#hero button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(146, 65, 45, 0.4);
+}
+
+#travel-quote {
+    text-align: center;
+    margin-top: 75px;
+}
+
+#featured-images {
+    display: flex;
+    flex-direction: column;
+}
+
+#featured-images img {
+    height: 400px;
+    width: auto;
+    object-fit: contain;
+}
+
+#featured-images img:nth-child(1){
+    transform: translateX(-150px);
+}
+
+#featured-images img:nth-child(2){
+    transform: translateY(-50px);
+}
+
+#featured-images img:nth-child(3){
+    transform: translate(150px, -125px);
+}
+
+#featured-images p {
+    position: absolute;
+    font-size: 1.25em
+}
+
+footer {
+    display: flex;
+    background-color: #E7B594;
+    height: 50px;
+    align-items: center;
+}
+
+footer p {
+    margin-left: 25px;
+    font-size: 1.1em
+}
+
+
+
+
+
