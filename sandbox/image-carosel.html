@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Interactive Card Carousel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the 3D card carousel */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            perspective: 1500px; /* This creates the 3D space */
+        }
+        .carousel-container {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            height: 500px;
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s, opacity 0.8s;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-front {
+            background-color: #fff;
+            position: relative; /* For positioning arrows */
+        }
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-back {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        /* Positioning for stacked cards effect */
+        .card:not(.active) {
+            transform: translateX(50%) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .card.active {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            z-index: 10;
+        }
+        /* In-Card Navigation Arrows */
+        .card-arrow-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none; /* Allow clicks to pass through overlay to image */
+        }
+        .card.active:hover .card-arrow-overlay {
+            opacity: 1;
+        }
+        .card-arrow {
+            pointer-events: all; /* Make arrows clickable */
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            color: #333;
+        }
+        .card-arrow:hover {
+            background-color: white;
+            transform: scale(1.1);
+        }
+        /* Gallery Modal */
+        .gallery-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            display: none; /* Initially hidden */
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .gallery-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        }
+        .close-modal {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2.5rem;
+            color: white;
+            cursor: pointer;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="carousel-container">
+        <!-- Cards will be dynamically inserted here by JavaScript -->
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal">
+        <span class="close-modal">&times;</span>
+        <div class="gallery-grid">
+            <!-- Gallery images will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA ---
+            const cardData = [
+                {
+                    id: 1,
+                    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop',
+                    title: 'Misty Mountains',
+                    description: 'A breathtaking view of mountains shrouded in mist, reflecting in a calm lake.',
+                    details: { location: 'Unknown Valley', camera: 'Sony A7III', year: '2022' }
+                },
+                {
+                    id: 2,
+                    image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=2175&auto=format&fit=crop',
+                    title: 'Green Plains',
+                    description: 'Vast, rolling green hills under a dramatic, cloudy sky.',
+                    details: { location: 'Tuscany, Italy', camera: 'Canon EOS R5', year: '2023' }
+                },
+                {
+                    id: 3,
+                    image: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=2070&auto=format&fit=crop',
+                    title: 'Lakeside Cabin',
+                    description: 'A cozy cabin nestled by a serene alpine lake, surrounded by pine trees.',
+                    details: { location: 'Canadian Rockies', camera: 'Nikon Z7', year: '2021' }
+                },
+                {
+                    id: 4,
+                    image: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?q=80&w=1974&auto=format&fit=crop',
+                    title: 'Majestic Waterfall',
+                    description: 'A powerful waterfall cascading down mossy cliffs into a lush forest.',
+                    details: { location: 'Iceland', camera: 'Fujifilm X-T4', year: '2022' }
+                }
+            ];
+
+            // --- DOM ELEMENT REFERENCES ---
+            const carouselContainer = document.querySelector('.carousel-container');
+            const galleryModal = document.querySelector('.gallery-modal');
+            const galleryGrid = document.querySelector('.gallery-grid');
+            const closeModalBtn = document.querySelector('.close-modal');
+
+            let currentIndex = 0;
+
+            // --- FUNCTIONS ---
+
+            function initializeCarousel() {
+                carouselContainer.innerHTML = '';
+                galleryGrid.innerHTML = '';
+
+                cardData.forEach((data, index) => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.dataset.index = index;
+                    if (index === currentIndex) {
+                        card.classList.add('active');
+                    }
+
+                    // Create the front face (image and arrows)
+                    const cardFront = document.createElement('div');
+                    cardFront.classList.add('card-face', 'card-front');
+                    cardFront.innerHTML = `
+                        <img src="${data.image}" alt="${data.title}" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Image+Not+Found';">
+                        <div class="card-arrow-overlay">
+                            <button class="card-arrow card-arrow-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                            </button>
+                            <button class="card-arrow card-arrow-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                    `;
+
+                    // Create the back face (details)
+                    const cardBack = document.createElement('div');
+                    cardBack.classList.add('card-face', 'card-back');
+                    cardBack.innerHTML = `
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">${data.title}</h3>
+                        <p class="text-gray-600 mb-6">${data.description}</p>
+                        <div class="text-sm text-gray-500">
+                            <p><strong>Location:</strong> ${data.details.location}</p>
+                            <p><strong>Camera:</strong> ${data.details.camera}</p>
+                            <p><strong>Year:</strong> ${data.details.year}</p>
+                        </div>
+                    `;
+
+                    card.appendChild(cardFront);
+                    card.appendChild(cardBack);
+                    carouselContainer.appendChild(card);
+
+                    // Create the gallery image
+                    const galleryImg = document.createElement('img');
+                    galleryImg.src = data.image;
+                    galleryImg.alt = data.title;
+                    galleryImg.classList.add('gallery-img');
+                    galleryImg.dataset.index = index;
+                    galleryImg.onerror = () => galleryImg.src = `https://placehold.co/200x150/cccccc/ffffff?text=Image+Not+Found`;
+                    galleryGrid.appendChild(galleryImg);
+                });
+
+                addCardEventListeners();
+            }
+
+            function updateCarousel() {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach((card) => {
+                    card.classList.toggle('active', parseInt(card.dataset.index) === currentIndex);
+                    if (parseInt(card.dataset.index) !== currentIndex) {
+                        card.classList.remove('is-flipped');
+                    }
+                });
+            }
+
+            function showNextCard() {
+                currentIndex = (currentIndex + 1) % cardData.length;
+                updateCarousel();
+            }
+
+            function showPrevCard() {
+                currentIndex = (currentIndex - 1 + cardData.length) % cardData.length;
+                updateCarousel();
+            }
+
+            function flipCard(e) {
+                // Prevent flipping if the click is on an arrow
+                if (e.target.closest('.card-arrow')) return;
+                
+                const activeCard = document.querySelector('.card.active');
+                if (activeCard) {
+                    activeCard.classList.toggle('is-flipped');
+                }
+            }
+
+            function openGallery() {
+                galleryModal.style.display = 'flex';
+            }
+
+            function closeGallery() {
+                galleryModal.style.display = 'none';
+            }
+
+            function handleGalleryClick(e) {
+                if (e.target.classList.contains('gallery-img')) {
+                    currentIndex = parseInt(e.target.dataset.index);
+                    updateCarousel();
+                    closeGallery();
+                }
+            }
+            
+            function addCardEventListeners() {
+                document.querySelectorAll('.card').forEach(card => {
+                    // Main listener to flip the card
+                    card.addEventListener('click', flipCard);
+
+                    // Listener on the front face image to open the gallery
+                    const frontFaceImage = card.querySelector('.card-front img');
+                    frontFaceImage.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent card from flipping
+                        const currentCard = e.target.closest('.card');
+                        if (currentCard.classList.contains('active') && !currentCard.classList.contains('is-flipped')) {
+                             openGallery();
+                        }
+                    });
+
+                    // Listeners for the new in-card arrows
+                    const leftArrow = card.querySelector('.card-arrow-left');
+                    const rightArrow = card.querySelector('.card-arrow-right');
+
+                    leftArrow.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Stop click from flipping card or opening gallery
+                        showPrevCard();
+                    });
+
+                    rightArrow.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Stop click from flipping card or opening gallery
+                        showNextCard();
+                    });
+                });
+            }
+
+            // --- GLOBAL EVENT LISTENERS ---
+            closeModalBtn.addEventListener('click', closeGallery);
+            galleryGrid.addEventListener('click', handleGalleryClick);
+            galleryModal.addEventListener('click', (e) => {
+                if (e.target === galleryModal) {
+                    closeGallery();
+                }
+            });
+
+            // --- INITIALIZATION ---
+            initializeCarousel();
+        });
+    </script>
+</body>
+</html>
