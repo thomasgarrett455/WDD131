@@ -1,148 +1,108 @@
 import cardData from "./memories.mjs";
 
-const flatCardData = cardData.flatMap(memory => 
-            memory.photos.map(photoSrc => ({
-                ...memory, 
-                image: photoSrc, 
-                photos: undefined 
-            }))
-        );
+const mainContent = document.querySelector('main.content');
 
-        
-        const carouselContainer = document.querySelector('.carousel-container');
-        const galleryModal = document.querySelector('.gallery-modal');
-        const galleryGrid = document.querySelector('.gallery-grid');
-        const closeModalBtn = document.querySelector('.close-modal');
+function filterMemories(query) {
+    query = query.toLowerCase();
+    return cardData.filter(memory => {
+        const locationMatch = memory.location.toLowerCase().includes(query);
+        const tagMatch = memory.tags.toLowerCase().includes(query);
+        const dateMatch = memory.date.toLowerCase().includes(query);
+        const titleMatch = memory.cardTitle.toLowerCase().includes(query);
+        return locationMatch || tagMatch || dateMatch || titleMatch;
+    });
+}
 
-        let currentIndex = 0;
-
-        
-
-        function initializeCarousel() {
-            carouselContainer.innerHTML = '';
-            galleryGrid.innerHTML = '';
-
-            flatCardData.forEach((data, index) => {
-                const card = document.createElement('div');
-                card.classList.add('card');
-                card.dataset.index = index;
-                if (index === currentIndex) {
-                    card.classList.add('active');
-                }
-
-                
-                const cardFront = document.createElement('div');
-                cardFront.classList.add('card-face', 'card-front');
-                cardFront.innerHTML = `
-                    <img src="${data.image}" alt="${data.cardTitle}" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Image+Not+Found';">
-                    <div class="card-arrow-overlay">
-                        <button class="card-arrow card-arrow-left">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                        </button>
-                        <button class="card-arrow card-arrow-right">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                        </button>
-                    </div>
-                `;
-
-                
-                const cardBack = document.createElement('div');
-                cardBack.classList.add('card-face', 'card-back');
-                cardBack.innerHTML = `
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">${data.cardTitle}</h3>
-                    <p class="text-gray-500 mb-4">${data.date} - ${data.location}</p>
-                    <p class="text-gray-600">${data.description}</p>
-                `;
-
-                card.appendChild(cardFront);
-                card.appendChild(cardBack);
-                carouselContainer.appendChild(card);
-
-                
-                const galleryImg = document.createElement('img');
-                galleryImg.src = data.image;
-                galleryImg.alt = data.cardTitle;
-                galleryImg.classList.add('gallery-img');
-                galleryImg.dataset.index = index;
-                galleryImg.onerror = () => galleryImg.src = `https://placehold.co/200x150/cccccc/ffffff?text=Image+Not+Found`;
-                galleryGrid.appendChild(galleryImg);
-            });
-
-            addCardEventListeners();
-        }
-
-        function updateCarousel() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card) => {
-                card.classList.toggle('active', parseInt(card.dataset.index) === currentIndex);
-                if (parseInt(card.dataset.index) !== currentIndex) {
-                    card.classList.remove('is-flipped');
-                }
-            });
-        }
-
-        function showNextCard() {
-            currentIndex = (currentIndex + 1) % flatCardData.length;
-            updateCarousel();
-        }
-
-        function showPrevCard() {
-            currentIndex = (currentIndex - 1 + flatCardData.length) % flatCardData.length;
-            updateCarousel();
-        }
-
-        function flipCard(e) {
-            if (e.target.closest('.card-arrow')) return;
-            const activeCard = document.querySelector('.card.active');
-            if (activeCard) {
-                activeCard.classList.toggle('is-flipped');
-            }
-        }
-
-        function openGallery() {
-            galleryModal.style.display = 'flex';
-        }
-
-        function closeGallery() {
-            galleryModal.style.display = 'none';
-        }
-
-        function handleGalleryClick(e) {
-            if (e.target.classList.contains('gallery-img')) {
-                currentIndex = parseInt(e.target.dataset.index);
-                updateCarousel();
-                closeGallery();
-            }
-        }
-        
-        function addCardEventListeners() {
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('click', flipCard);
-                const frontFaceImage = card.querySelector('.card-front img');
-                if (frontFaceImage) {
-                    frontFaceImage.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const currentCard = e.target.closest('.card');
-                        if (currentCard.classList.contains('active') && !currentCard.classList.contains('is-flipped')) {
-                             openGallery();
-                        }
-                    });
-                }
-                const leftArrow = card.querySelector('.card-arrow-left');
-                const rightArrow = card.querySelector('.card-arrow-right');
-                if (leftArrow) leftArrow.addEventListener('click', (e) => { e.stopPropagation(); showPrevCard(); });
-                if (rightArrow) rightArrow.addEventListener('click', (e) => { e.stopPropagation(); showNextCard(); });
-            });
-        }
-
-        
-        closeModalBtn.addEventListener('click', closeGallery);
-        galleryGrid.addEventListener('click', handleGalleryClick);
-        galleryModal.addEventListener('click', (e) => {
-            if (e.target === galleryModal) {
-                closeGallery();
-            }
+function renderMemories(memories = cardData) {
+    clearOldMemories();
+    const noneFound = document.getElementById('none-found');
+    if (memories.length === 0) {
+        if (noneFound) noneFound.style.display = 'block';
+        return;
+    } else {
+        if (noneFound) noneFound.style.display = 'none';
+    }
+    const hr = mainContent.querySelector('hr');
+    let insertAfter = hr;
+    memories.forEach((memory, groupIdx) => {
+        const card = document.createElement('div');
+        card.classList.add('memories');
+        let currentImgIdx = 0;
+        const imagesDiv = document.createElement('div');
+        imagesDiv.classList.add('memory-images');
+        const img = document.createElement('img');
+        img.src = memory.photos[0].src;
+        img.alt = memory.photos[0].alt;
+        imagesDiv.appendChild(img);
+        const arrowOverlay = document.createElement('div');
+        arrowOverlay.className = 'card-arrow-overlay';
+        const leftArrow = document.createElement('button');
+        leftArrow.className = 'card-arrow card-arrow-left';
+        leftArrow.setAttribute('aria-label', 'Show previous image');
+        leftArrow.type = 'button';
+        leftArrow.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`;
+        const rightArrow = document.createElement('button');
+        rightArrow.className = 'card-arrow card-arrow-right';
+        rightArrow.setAttribute('aria-label', 'Show next image');
+        rightArrow.type = 'button';
+        rightArrow.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`;
+        arrowOverlay.appendChild(leftArrow);
+        arrowOverlay.appendChild(rightArrow);
+        imagesDiv.appendChild(arrowOverlay);
+        leftArrow.addEventListener('click', e => {
+            e.stopPropagation();
+            currentImgIdx = (currentImgIdx - 1 + memory.photos.length) % memory.photos.length;
+            img.src = memory.photos[currentImgIdx].src;
+            img.alt = memory.photos[currentImgIdx].alt;
         });
+        rightArrow.addEventListener('click', e => {
+            e.stopPropagation();
+            currentImgIdx = (currentImgIdx + 1) % memory.photos.length;
+            img.src = memory.photos[currentImgIdx].src;
+            img.alt = memory.photos[currentImgIdx].alt;
+        });
+        const infoDiv = document.createElement('div');
+        infoDiv.classList.add('memory-info');
+        infoDiv.innerHTML = `
+            <h2>${memory.cardTitle}</h2>
+            <p><strong>Date:</strong> ${memory.date}</p>
+            <p><strong>Location:</strong> ${memory.location}</p>
+            <p>${memory.description}</p>
+        `;
+        card.appendChild(imagesDiv);
+        card.appendChild(infoDiv);
+        if (insertAfter && insertAfter.parentNode) {
+            insertAfter.parentNode.insertBefore(card, insertAfter.nextSibling);
+            insertAfter = card;
+        } else {
+            mainContent.appendChild(card);
+            insertAfter = card;
+        }
+    });
+}
 
-        
-        initializeCarousel();
+function clearOldMemories() {
+    document.querySelectorAll('.memories').forEach(el => el.remove());
+}
+
+function searchHandler(e) {
+    e.preventDefault();
+    const searchInput = document.querySelector('#search-input');
+    const query = searchInput.value.toLowerCase().trim();
+    if (!query) {
+        renderMemories();
+    } else {
+        const results = filterMemories(query);
+        renderMemories(results);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const noneFound = document.getElementById('none-found');
+    if (noneFound) noneFound.style.display = 'none';
+    const form = document.querySelector('.search');
+    if (form) {
+        form.addEventListener('submit', searchHandler);
+    }
+    renderMemories();
+});
